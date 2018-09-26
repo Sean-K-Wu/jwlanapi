@@ -230,7 +230,7 @@ public interface WlanApi extends Library
     public int WlanQueryInterface(
     		Pointer hClientHandle,
     		Pointer pInterfaceGuid,
-    		long OpCode,
+    		int OpCode,
     		PointerByReference pReserved,
     		IntByReference pdwDataSize,
     		PointerByReference ppData,
