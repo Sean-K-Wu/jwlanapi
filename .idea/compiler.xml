@@ -9,8 +9,11 @@
         <module name="jwlanapi" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel target="1.8">
-      <module name="jwlanapi" target="1.8" />
+    <bytecodeTargetLevel target="1.7">
+      <module name="jwlanapi" target="1.7" />
     </bytecodeTargetLevel>
+  </component>
+  <component name="JavacSettings">
+    <option name="PREFER_TARGET_JDK_COMPILER" value="false" />
   </component>
 </project>

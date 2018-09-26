@@ -31,12 +31,20 @@ public class SimpleTest {
                     scan_results.get(i).capabilities);
             System.out.println();
         }
-
+        System.out.println("Connected Wifi Networks:");
+        System.out.println("\t" + wlan_manager.connectedSsid());
         System.out.println("Configured Wifi Networks:");
-        List<String> configured_networks = wlan_manager.getConfiguredNetworks();
+        //List<String> configured_networks = wlan_manager.getConfiguredNetworks();
         for(int i=0; i < scan_results.size(); i++){
             System.out.println("\t"+ Integer.toString(i)+"\t"+scan_results.get(i));
         }
+        System.out.println("Release Connected Wifi Networks:");
+        wlan_manager.waitForDisconnect(3,TimeUnit.SECONDS);
+        System.out.println("Connected Wifi Networks:");
+        System.out.println("\t" + wlan_manager.connectedSsid());
+        System.out.println("Connecting Wifi Networks:");
+        System.out.println("\t" + wlan_manager.waitForConnect("Vision",5,TimeUnit.SECONDS));
+
     }
 
 }

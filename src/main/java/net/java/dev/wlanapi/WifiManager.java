@@ -15,17 +15,17 @@
  *******************************************************************************/
 package net.java.dev.wlanapi;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.concurrent.TimeUnit;
-import java.util.logging.Logger;
-
 import com.sun.jna.Pointer;
 import com.sun.jna.WString;
 import com.sun.jna.platform.win32.Guid;
 import com.sun.jna.ptr.IntByReference;
 import com.sun.jna.ptr.PointerByReference;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+import java.util.logging.Logger;
 
 public class WifiManager
 {
@@ -239,7 +239,14 @@ public class WifiManager
 		PDot11Ssid pDot11Ssid = new PDot11Ssid();
 		String type = targetNetworkType;
 		int dwError;
-		
+		/*typedef enum _WLAN_CONNECTION_MODE {
+		wlan_connection_mode_profile = 0,
+		wlan_connection_mode_temporary_profile,
+		wlan_connection_mode_discovery_secure,
+		wlan_connection_mode_discovery_unsecure,
+		wlan_connection_mode_auto,
+		wlan_connection_mode_invalid
+		}*/
 		//set the connection mode (connecting using a profile)
 		wlanConnPara.wlanConnectionMode = 0;
 		//set the profile name
@@ -247,7 +254,7 @@ public class WifiManager
 		//set the SSID
 		pDot11Ssid.dot11Ssid = new Dot11Ssid.ByReference();
 		pDot11Ssid.dot11Ssid.ucSSID = targetNetworkType.getBytes();
-		pDot11Ssid.dot11Ssid.uSSIDLength = targetNetworkType.length();
+		pDot11Ssid.dot11Ssid.uSSIDLength = pDot11Ssid.dot11Ssid.ucSSID.length;
 
 		wlanConnPara.pDot11Ssid = pDot11Ssid;
 		
