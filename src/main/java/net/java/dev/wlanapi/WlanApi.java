@@ -490,11 +490,11 @@ public interface WlanApi extends Library
     public int WlanGetProfile(
     		Pointer hClientHandle,
     		Pointer pInterfaceGuid,
-    		String strProfileName,
+    		WString strProfileName,
     		PointerByReference pReserved,
-    		PointerByReference pstrProfileXml,
-    		PointerByReference pdwFlags,
-    		PointerByReference pdwGrantedAccess);
+			Pointer pstrProfileXml,
+    		long pdwFlags,
+    		long pdwGrantedAccess);
     
     /**
      * Retrieves the list of profiles in preference order

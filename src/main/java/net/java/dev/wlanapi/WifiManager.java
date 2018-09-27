@@ -205,7 +205,7 @@ public class WifiManager
 		{
 			return null;
 		}
-		
+
         pAvailableNetworkList = new WlanAvailableNetworkList.ByReference(p.getValue());
 		
 		List<ScanResult> scanResults = new ArrayList<ScanResult>();
@@ -339,9 +339,10 @@ public class WifiManager
 			logger.debug("Error "+dwError+" occurs when unregister ACM notifications.");
 		}*/
 	}
-	
 
-	
+
+
+
 	private List<String> getProfileList()
 	{
 		int dwError;
@@ -368,7 +369,36 @@ public class WifiManager
 		
 		return profileList;
 	}
-	
+
+	private String getProfile(String profile) {
+		/*public int WlanGetProfile(
+				Pointer hClientHandle,
+				Pointer pInterfaceGuid,
+				String strProfileName,
+				PointerByReference pReserved,
+				PointerByReference pstrProfileXml,
+				PointerByReference pdwFlags,
+				PointerByReference pdwGrantedAccess);*/
+		int pdwFlags = 0;
+		int pdwGrantedAccess = 2;
+		PointerByReference pointerByReference = new PointerByReference();
+		int dwError;
+		if ((dwError = WlanApi.INSTANCE.WlanGetProfile(
+				hClient.getValue(),
+				interfaceGuid.getPointer(),
+				new WString(profile),
+				null,
+				pointerByReference.getPointer(),
+				pdwFlags,
+				pdwGrantedAccess)) != 0)
+		{
+			return null;
+		}
+		Pointer value = pointerByReference.getValue();
+		return value.getWideString(0);
+	}
+
+
 	private boolean setProfile(String profile)
 	{
 		int dwError;
@@ -523,7 +553,13 @@ public class WifiManager
 			return null;
 		}
 	}
-	
+	public String getNetwork(String profile){
+		return getProfile(profile);
+	}
+
+
+
+
 	public List<String> getConfiguredNetworks()
 	{
 		return getProfileList();
