@@ -6,14 +6,16 @@ import net.java.dev.wlanapi.xml.WLANProfileXml;
 import net.java.dev.wlanapi.xml.adapter.NullPolicyListener;
 import org.junit.Before;
 import org.junit.Test;
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
+import org.xml.sax.XMLReader;
 
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Marshaller;
-import javax.xml.bind.Unmarshaller;
-import java.io.IOException;
-import java.io.StringReader;
-import java.io.StringWriter;
+import javax.xml.bind.*;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.parsers.SAXParserFactory;
+import javax.xml.transform.Source;
+import javax.xml.transform.sax.SAXSource;
+import java.io.*;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -92,7 +94,7 @@ public class SimpleTest {
 
     @Test
     public void testConvertXml(){
-        String source = "<?xml version=\"1.0\"?>\n" +
+        String sourceStr = "<?xml version=\"1.0\"?>\n" +
                 "<WLANProfile xmlns=\"http://www.microsoft.com/networking/WLAN/profile/v1\">\n" +
                 "\t<name>Vision_5G</name>\n" +
                 "\t<SSIDConfig>\n" +
@@ -122,13 +124,30 @@ public class SimpleTest {
                 "\t\t<randomizationSeed>2158375862</randomizationSeed>\n" +
                 "\t</MacRandomization>\n" +
                 "</WLANProfile>";
-        try (StringReader stringReader = new StringReader(source)){
+        try (StringReader stringReader = new StringReader(sourceStr); ){
             JAXBContext jaxbContext = JAXBContext.newInstance(WLANProfileXml.class);
             Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
-            WLANProfileXml wlanProfileXml = (WLANProfileXml) unmarshaller.unmarshal(stringReader);
+            unmarshaller.setEventHandler(
+                    new ValidationEventHandler() {
+                        public boolean handleEvent(ValidationEvent event ) {
+                            throw new RuntimeException(event.getMessage(),
+                                    event.getLinkedException());
+                        }
+                    }
+            );
+
+            SAXParserFactory sax = SAXParserFactory.newInstance();
+            sax.setNamespaceAware(false);
+            XMLReader xmlReader = sax.newSAXParser().getXMLReader();
+            Source source = new SAXSource(xmlReader, new InputSource(stringReader));
+            WLANProfileXml wlanProfileXml = (WLANProfileXml) unmarshaller.unmarshal(source);
             System.out.println(wlanProfileXml);
 
         } catch (JAXBException e) {
+            e.printStackTrace();
+        } catch (SAXException e) {
+            e.printStackTrace();
+        } catch (ParserConfigurationException e) {
             e.printStackTrace();
         }
 

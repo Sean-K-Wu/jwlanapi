@@ -10,6 +10,7 @@ import javax.xml.bind.annotation.*;
 
 @XmlRootElement(name="WLANProfile")
 @XmlAccessorType(XmlAccessType.FIELD)
+//@XmlType( propOrder = {"name","ssidConfig","connectionType","connectionMode","msm"})
 public class WLANProfileXml {
     @XmlAttribute( name = "xmlns")
     private String xmlns ="http://www.microsoft.com/networking/WLAN/profile/v1";
@@ -26,6 +27,17 @@ public class WLANProfileXml {
 
     @XmlElement(name = "MSM")
     private MSM msm;
+
+    @XmlElement( name = "MacRandomization")
+    private MacRandomization macRandomization;
+
+    public MacRandomization getMacRandomization() {
+        return macRandomization;
+    }
+
+    public void setMacRandomization(MacRandomization macRandomization) {
+        this.macRandomization = macRandomization;
+    }
 
     public String getName() {
         return name;
