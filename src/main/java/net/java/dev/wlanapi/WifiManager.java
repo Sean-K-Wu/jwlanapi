@@ -253,7 +253,7 @@ public class WifiManager
 		wlanConnPara.strProfile = new WString(targetNetworkProfile);
 		//set the SSID
 		pDot11Ssid.dot11Ssid = new Dot11Ssid.ByReference();
-		pDot11Ssid.dot11Ssid.ucSSID = targetNetworkType.getBytes();
+		pDot11Ssid.dot11Ssid.ucSSID = targetNetworkProfile.getBytes();//ssid
 		pDot11Ssid.dot11Ssid.uSSIDLength = pDot11Ssid.dot11Ssid.ucSSID.length;
 
 		wlanConnPara.pDot11Ssid = pDot11Ssid;
