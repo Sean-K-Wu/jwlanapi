@@ -81,7 +81,7 @@ public class WlanAvailableNetworkList extends Structure
     		Network[i].strProfileName = p.getCharArray(8+628*i, 256);
     		Network[i].dot11Ssid = new Dot11Ssid();
     		Network[i].dot11Ssid.uSSIDLength = p.getInt(520+628*i);
-    		Network[i].dot11Ssid.ucSSID = p.getByteArray(524+628*i, Network[i].dot11Ssid.uSSIDLength);
+    		Network[i].dot11Ssid.ucSSID = p.getByteArray(524+628*i, (int) Network[i].dot11Ssid.uSSIDLength);
     		Network[i].dot11BssType = p.getInt(548+628*i);
     		Network[i].uNumberOfBssids = p.getInt(552+628*i);
     		Network[i].bNetworkConnectable = (p.getInt(556+628*i) != 0);

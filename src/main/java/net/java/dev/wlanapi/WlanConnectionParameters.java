@@ -56,7 +56,7 @@ public class WlanConnectionParameters extends Structure
 	 * profile will be tried. This parameter must not be NULL if WLAN_CONNECTION_MODE is set to wlan_connection_mode_discovery_secure or 
 	 * wlan_connection_mode_discovery_unsecure.
 	 */
-	public PDot11Ssid pDot11Ssid;
+	public Dot11Ssid dot11Ssid;
 	
 	/**
 	 * Pointer to a DOT11_BSSID_LIST structure that contains the list of basic service set (BSS) identifiers desired for the connection.
@@ -96,6 +96,6 @@ public class WlanConnectionParameters extends Structure
 
 	@Override
 	protected List<String> getFieldOrder() {
-		return Arrays.asList("wlanConnectionMode", "strProfile", "pDot11Ssid", "pDesiredBssidList", "dot11BssType", "dwFlags");
+		return Arrays.asList("wlanConnectionMode", "strProfile", "dot11Ssid", "pDesiredBssidList", "dot11BssType", "dwFlags");
 	}
 }

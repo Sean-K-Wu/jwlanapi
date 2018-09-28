@@ -213,7 +213,7 @@ public class WifiManager
 		
 		for (int i = 0; i< pAvailableNetworkList.dwNumberOfItems; i++)
 		{
-			int ssidArrayLength = pAvailableNetworkList.Network[i].dot11Ssid.uSSIDLength;
+			int ssidArrayLength = (int) pAvailableNetworkList.Network[i].dot11Ssid.uSSIDLength;
 			if (ssidArrayLength > Dot11Ssid.DOT11_SSID_MAX_LENGTH)
 			{
 				ssidArrayLength = Dot11Ssid.DOT11_SSID_MAX_LENGTH;
@@ -237,6 +237,7 @@ public class WifiManager
 	{
 		WlanConnectionParameters.ByReference wlanConnPara = new WlanConnectionParameters.ByReference();
 		PDot11Ssid pDot11Ssid = new PDot11Ssid();
+		Dot11Ssid dot11Ssid;
 		String type = targetNetworkType;
 		int dwError;
 		/*typedef enum _WLAN_CONNECTION_MODE {
@@ -252,11 +253,11 @@ public class WifiManager
 		//set the profile name
 		wlanConnPara.strProfile = new WString(targetNetworkProfile);
 		//set the SSID
-		pDot11Ssid.dot11Ssid = new Dot11Ssid.ByReference();
-		pDot11Ssid.dot11Ssid.ucSSID = targetNetworkProfile.getBytes();//ssid
-		pDot11Ssid.dot11Ssid.uSSIDLength = pDot11Ssid.dot11Ssid.ucSSID.length;
+		dot11Ssid = new Dot11Ssid.ByReference();
+		dot11Ssid.ucSSID = targetNetworkProfile.getBytes();//ssid
+		dot11Ssid.uSSIDLength = dot11Ssid.ucSSID.length;
 
-		wlanConnPara.pDot11Ssid = pDot11Ssid;
+		wlanConnPara.dot11Ssid = dot11Ssid;
 		
 		//get BSS type
 		if (type.equalsIgnoreCase("adhoc") || type.equalsIgnoreCase("a"))
@@ -472,7 +473,7 @@ public class WifiManager
 		
 		pWlanConnectionAttributes = new WlanConnectionAttributes.ByReference(p.getValue());
 		
-		int ssidArrayLength = pWlanConnectionAttributes.wlanAssociationAttributes.dot11Ssid.uSSIDLength;
+		int ssidArrayLength = (int) pWlanConnectionAttributes.wlanAssociationAttributes.dot11Ssid.uSSIDLength;
 		if (ssidArrayLength > Dot11Ssid.DOT11_SSID_MAX_LENGTH)
 		{
 			ssidArrayLength = Dot11Ssid.DOT11_SSID_MAX_LENGTH;
