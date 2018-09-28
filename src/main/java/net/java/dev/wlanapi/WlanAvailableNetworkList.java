@@ -15,13 +15,11 @@
  *******************************************************************************/
 package net.java.dev.wlanapi;
 
-import java.util.Arrays;
-import java.util.Formatter;
-import java.util.List;
-
-import com.sun.jna.Native;
 import com.sun.jna.Pointer;
 import com.sun.jna.Structure;
+
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * Contains an array of information about available networks.

@@ -27,53 +27,74 @@ public class SimpleTest {
     private  WifiManager wlan_manager = null;
 
 
-    public static void main(String[] args) throws InterruptedException {
-        System.out.println("\nJava wlanapi.dll Wrapper Test:\n******************************\n");
-        WifiManager wlan_manager = new WifiManager();
 
-        System.out.printf("Wifi Enabled: %s\n\n",wlan_manager.isWifiEnabled());
-
-        System.out.println("Detected Wifi Networks:\n");
-        List<ScanResult> scan_results = wlan_manager.waitForScanResults(5,
-                TimeUnit.SECONDS);
-        for(int i=0; i < scan_results.size(); i++){
-            System.out.println("\t SSID : "+scan_results.get(i).SSID);
-            System.out.println("\t\t BSSID : "+scan_results.get(i).BSSID);
-            System.out.println("\t\t Frequency (MHz): "+
-                    Integer.toString(scan_results.get(i).frequency));
-            System.out.println("\t\t Signal Level (db) : "+
-                    Integer.toString(scan_results.get(i).level));
-            System.out.println("\t\t Capabilities : "+
-                    scan_results.get(i).capabilities);
-            System.out.println();
-        }
-        System.out.println("Connected Wifi Networks:");
-        System.out.println("\t" + wlan_manager.connectedSsid());
-        System.out.println("Configured Wifi Networks:");
-        List<String> configured_networks = wlan_manager.getConfiguredNetworks();
-        for(int i=0; i < scan_results.size(); i++){
-            System.out.println("\t"+ Integer.toString(i)+"\t"+scan_results.get(i));
-        }
-        System.out.println("Release Connected Wifi Networks:");
-        wlan_manager.waitForDisconnect(3,TimeUnit.SECONDS);
-        System.out.println("Connected Wifi Networks:");
-        System.out.println("\t" + wlan_manager.connectedSsid());
-        System.out.println("Connecting Wifi Networks:");
-        System.out.println("\t" + wlan_manager.waitForConnect("Vision",5,TimeUnit.SECONDS));
-
-    }
 
     @Before
     public void init(){
         wlan_manager = new WifiManager();
+        System.out.printf("Wifi Enabled: %s\n\n",wlan_manager.isWifiEnabled());
     }
 
     @Test
     public void testGetProfile(){
-        String vision_5G = wlan_manager.getNetwork("Vision");
+        String vision_5G = wlan_manager.getNetwork("Vision_5G");
         System.out.println(vision_5G);
     }
+    @Test
+    public void testGetConnected(){
+        System.out.println("Connected Wifi Networks:");
+        System.out.println("\t" + wlan_manager.connectedSsid());
+    }
+    @Test
+    public void testScan(){
+        try {
+            System.out.println("Detected Wifi Networks:\n");
+            List<ScanResult> scan_results = wlan_manager.waitForScanResults(5,
+                    TimeUnit.SECONDS);
+            for(int i=0; i < scan_results.size(); i++){
+                System.out.println("\t SSID : "+scan_results.get(i).SSID);
+                System.out.println("\t\t BSSID : "+scan_results.get(i).BSSID);
+                System.out.println("\t\t Frequency (MHz): "+
+                        Integer.toString(scan_results.get(i).frequency));
+                System.out.println("\t\t Signal Level (db) : "+
+                        Integer.toString(scan_results.get(i).level));
+                System.out.println("\t\t Capabilities : "+
+                        scan_results.get(i).capabilities);
+                System.out.println();
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
 
+    @Test
+    public void testGetConfiguredList(){
+        System.out.println("Configured Wifi Networks:\n");
+        List<String> configured_networks = wlan_manager.getConfiguredNetworks();
+        for (int i = 0; i < configured_networks.size(); i++) {
+            System.out.println((i+1)+".   \t"+configured_networks.get(i));
+        }
+    }
+    @Test
+    public void testConnect(){
+        try {
+            System.out.println("Connecting Wifi Networks:");
+            System.out.println("\t" + wlan_manager.waitForConnect("Vision_5G",5,TimeUnit.SECONDS));
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    @Test
+    public void testDisconnect(){
+        try {
+            System.out.println("Release Connected Wifi Networks:");
+            wlan_manager.waitForDisconnect(3,TimeUnit.SECONDS);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
 
     @Test
     public void testOutXml(){
@@ -146,4 +167,6 @@ public class SimpleTest {
 
 
     }
+
+
 }

@@ -15,11 +15,11 @@
  *******************************************************************************/
 package net.java.dev.wlanapi;
 
-import java.util.Arrays;
-import java.util.List;
-
 import com.sun.jna.Structure;
 import com.sun.jna.WString;
+
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * Specifies the parameters used when using the WlanConnect function
@@ -92,7 +92,7 @@ public class WlanConnectionParameters extends Structure
 	 * 
 	 * Windows XP with SP3 and Wireless LAN API for Windows XP with SP2: This member must be set to 0.
 	 */
-	public int dwFlags;
+	public long dwFlags;
 
 	@Override
 	protected List<String> getFieldOrder() {
