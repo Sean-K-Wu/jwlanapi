@@ -73,6 +73,8 @@ public class SimpleTest {
         String vision_5G = wlan_manager.getNetwork("Vision");
         System.out.println(vision_5G);
     }
+
+
     @Test
     public void testOutXml(){
 
@@ -127,15 +129,6 @@ public class SimpleTest {
         try (StringReader stringReader = new StringReader(sourceStr); ){
             JAXBContext jaxbContext = JAXBContext.newInstance(WLANProfileXml.class);
             Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
-            unmarshaller.setEventHandler(
-                    new ValidationEventHandler() {
-                        public boolean handleEvent(ValidationEvent event ) {
-                            throw new RuntimeException(event.getMessage(),
-                                    event.getLinkedException());
-                        }
-                    }
-            );
-
             SAXParserFactory sax = SAXParserFactory.newInstance();
             sax.setNamespaceAware(false);
             XMLReader xmlReader = sax.newSAXParser().getXMLReader();
